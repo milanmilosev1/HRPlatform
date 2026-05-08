@@ -1,33 +1,69 @@
-﻿using HRPlatform.Domain.Models;
+﻿using HRPlatform.Domain.DTOs.SkillDTOs;
+using HRPlatform.Domain.Models;
+using HRPlatform.Domain.Repositories;
 using HRPlatform.Domain.Services;
 
 namespace HRPlatform.Services.SkillServices
 {
-    public class SkillService : ISkillServices
+    public class SkillService(ISkillRepository repo) : ISkillServices
     {
-        public Task<Skill> AddSkillAsync(Skill skill)
+        private readonly ISkillRepository _repo = repo;
+        public async Task<Skill> AddSkillAsync(CreateSkillDTO skill)
         {
-            throw new NotImplementedException();
+            var newSkill = new Skill
+            {
+                Id = Guid.NewGuid(),
+                Name = skill.Name,
+                CandidateSkills = []
+            };
+
+            await _repo.AddAsync(newSkill);
+            await _repo.SaveChangesAsync();
+
+            return newSkill;
         }
 
-        public Task<Skill> GetSkillByIdAsync(Guid skillId)
+        public async Task<Skill?> GetSkillByIdAsync(Guid skillId)
         {
-            throw new NotImplementedException();
+            return await _repo.GetByIdAsync(skillId);
         }
 
-        public Task<List<Skill>> GetSkillsAsync()
+        public async Task<List<Skill>> GetSkillsAsync()
         {
-            throw new NotImplementedException();
+            return await _repo.GetAllAsync();
         }
 
-        public Task RemoveSkillAsync(Guid id)
+        public async Task RemoveSkillAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var skill = await _repo.GetByIdAsync(id)
+                ?? throw new KeyNotFoundException($"Skill with id: {id} does not exist");
+
+            await _repo.RemoveAsync(skill);
         }
 
-        public Task<Skill> UpdateSkillInfoAsync(Skill newSkill)
+        public async Task<Skill?> UpdateSkillInfoAsync(UpdateSkillDTO newSkill)
         {
-            throw new NotImplementedException();
+            var skill = await _repo.GetByIdAsync(newSkill.Id);
+
+            if (skill is null)
+                return null;
+
+            skill.Name = newSkill.Name;
+
+            skill.CandidateSkills.Clear();
+
+            foreach (var candidateId in newSkill.CandidateIds)
+            {
+                skill.CandidateSkills.Add(new CandidateSkills
+                {
+                    SkillId = skill.Id,
+                    CandidateId = candidateId
+                });
+            }
+
+            await _repo.SaveChangesAsync();
+
+            return skill;
         }
     }
 }

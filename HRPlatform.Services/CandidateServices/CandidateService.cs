@@ -34,24 +34,48 @@ namespace HRPlatform.Services.CandidateServices
             return newCandidate;
         }
 
-        public Task<Candidate> GetCandidateByIdAsync(Guid id)
+        public async Task<Candidate?> GetCandidateByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _repo.GetByIdAsync(id);
         }
 
-        public Task<List<Candidate>> GetCandidatesAsync()
+        public async Task<List<Candidate>> GetCandidatesAsync()
         {
-            throw new NotImplementedException();
+            return await _repo.GetAllAsync();
         }
 
-        public Task RemoveCandidateAsync(Guid id)
+        public async Task RemoveCandidateAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var candidate = await _repo.GetByIdAsync(id) 
+                ?? throw new KeyNotFoundException($"Candidate with the id: {id} does not exist");
+
+            await _repo.RemoveAsync(candidate);
         }
 
-        public Task<Candidate> UpdateCandidateInfoAsync(UpdateCandidateDTO newCandidate)
+        public async Task<Candidate> UpdateCandidateInfoAsync(UpdateCandidateDTO newCandidate)
         {
-            throw new NotImplementedException();
+            var candidate = await _repo.GetByIdAsync(newCandidate.Id)
+                ?? throw new KeyNotFoundException($"Candidate with the id: {newCandidate.Id} does not exist");
+
+            candidate.Name = newCandidate.Name;
+            candidate.Email = newCandidate.Email;
+            candidate.ContactNumber = newCandidate.ContactNumber;
+            candidate.DateOfBirth = newCandidate.DateOfBirth;
+
+            candidate.CandidateSkills.Clear();
+
+            foreach (var skillId in newCandidate.SkillIds)
+            {
+                candidate.CandidateSkills.Add(new CandidateSkills
+                {
+                    CandidateId = candidate.Id,
+                    SkillId = skillId
+                });
+            }
+
+            await _repo.SaveChangesAsync();
+
+            return candidate;
         }
     }
 }
