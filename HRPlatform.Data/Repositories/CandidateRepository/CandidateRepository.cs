@@ -1,33 +1,39 @@
 ﻿using HRPlatform.Domain.Models;
 using HRPlatform.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRPlatform.Data.Repositories.CandidateRepository
 {
-    public class CandidateRepository : ICandidateRepository
+    public class CandidateRepository(AppDbContext context) : ICandidateRepository
     {
-        public Task<Candidate> AddAsync(Candidate candidate)
+        private readonly AppDbContext _context = context;
+
+        public async Task<Candidate?> AddAsync(Candidate candidate)
         {
-            throw new NotImplementedException();
+            await _context.Candidates.AddAsync(candidate);
+            await _context.SaveChangesAsync();
+            return candidate;
         }
 
-        public Task<List<Candidate>> GetAllAsync()
+        public async Task<List<Candidate>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Candidates.ToListAsync();
         }
 
-        public Task<Candidate> GetByIdAsync(Guid id)
+        public async Task<Candidate?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Candidates.FindAsync(id);
         }
 
-        public Task RemoveAsync(Guid candidateId)
+        public async Task RemoveAsync(Candidate candidate)
         {
-            throw new NotImplementedException();
-        }
+            _context.Remove(candidate);
+            await _context.SaveChangesAsync();
+        }   
 
-        public Task<Candidate> UpdateAsync(Candidate newCandidate)
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
     }
 }
