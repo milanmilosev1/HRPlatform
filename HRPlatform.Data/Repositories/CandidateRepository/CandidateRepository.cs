@@ -12,12 +12,15 @@ namespace HRPlatform.Data.Repositories.CandidateRepository
         {
             await _context.Candidates.AddAsync(candidate);
             await _context.SaveChangesAsync();
-            return candidate;
+
+            return await _context.Candidates.Include(c => c.CandidateSkills)
+                .ThenInclude(cs => cs.Skill)
+                .FirstOrDefaultAsync(c => c.Id == candidate.Id);
         }
 
         public async Task<List<Candidate>> GetAllAsync()
         {
-            return await _context.Candidates.ToListAsync();
+            return await _context.Candidates.Include(c => c.CandidateSkills).ThenInclude(cs => cs.Skill).ToListAsync();
         }
 
         public async Task<Candidate?> GetByIdAsync(Guid id)

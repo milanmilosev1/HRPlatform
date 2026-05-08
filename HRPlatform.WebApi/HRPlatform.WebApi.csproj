@@ -20,4 +20,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HRPlatform.Data\HRPlatform.Data.csproj" />
+    <ProjectReference Include="..\HRPlatform.Domain\HRPlatform.Domain.csproj" />
+    <ProjectReference Include="..\HRPlatform.Services\HRPlatform.Services.csproj" />
+  </ItemGroup>
+
 </Project>
