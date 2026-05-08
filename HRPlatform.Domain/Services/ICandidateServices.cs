@@ -8,7 +8,7 @@ namespace HRPlatform.Domain.Services
         Task<Candidate> AddCandidateAsync(CreateCandidateDTO candidate);
         Task RemoveCandidateAsync(Guid id);
         Task<Candidate> UpdateCandidateInfoAsync(UpdateCandidateDTO newCandidate);
-        Task<Candidate> GetCandidateByIdAsync(Guid id);
+        Task<Candidate?> GetCandidateByIdAsync(Guid id);
         Task<List<Candidate>> GetCandidatesAsync();
     }
 }
