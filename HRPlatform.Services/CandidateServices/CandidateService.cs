@@ -1,13 +1,37 @@
-﻿using HRPlatform.Domain.Models;
+﻿using HRPlatform.Domain.DTOs.CandidateDTOs;
+using HRPlatform.Domain.Models;
+using HRPlatform.Domain.Repositories;
 using HRPlatform.Domain.Services;
 
 namespace HRPlatform.Services.CandidateServices
 {
-    public class CandidateService : ICandidateServices
+    public class CandidateService(ICandidateRepository repo) : ICandidateServices
     {
-        public Task<Candidate> AddCandidateAsync(Candidate candidate)
+        private readonly ICandidateRepository _repo = repo;
+        public async Task<Candidate> AddCandidateAsync(CreateCandidateDTO candidate)
         {
-            throw new NotImplementedException();
+            var newCandidate = new Candidate
+            {
+                Id = Guid.NewGuid(),
+                Name = candidate.Name,
+                ContactNumber = candidate.ContactNumber,
+                Email = candidate.Email,
+                DateOfBirth = candidate.DateOfBirth,
+                CandidateSkills = []
+            };
+
+            foreach(var skillId in candidate.SkillIds)
+            {
+                newCandidate.CandidateSkills.Add(new CandidateSkills
+                {
+                    CandidateId = newCandidate.Id,
+                    SkillId = skillId
+                });
+            }
+
+            await _repo.AddAsync(newCandidate);
+            
+            return newCandidate;
         }
 
         public Task<Candidate> GetCandidateByIdAsync(Guid id)
@@ -25,7 +49,7 @@ namespace HRPlatform.Services.CandidateServices
             throw new NotImplementedException();
         }
 
-        public Task<Candidate> UpdateCandidateInfoAsync(Candidate newCandidate)
+        public Task<Candidate> UpdateCandidateInfoAsync(UpdateCandidateDTO newCandidate)
         {
             throw new NotImplementedException();
         }

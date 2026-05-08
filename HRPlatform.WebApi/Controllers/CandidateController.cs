@@ -1,6 +1,10 @@
-﻿namespace HRPlatform.WebApi.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace HRPlatform.WebApi.Controllers
 {
-    public class CandidateController
+    [ApiController]
+    [Route("/candidate")]
+    public class CandidateController : ControllerBase
     {
     }
 }

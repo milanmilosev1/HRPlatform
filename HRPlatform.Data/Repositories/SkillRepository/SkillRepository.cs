@@ -15,12 +15,12 @@ namespace HRPlatform.Data.Repositories.SkillRepository
             throw new NotImplementedException();
         }
 
-        public Task<Skill> GetByIdAsync(Guid id)
+        public Task<Skill?> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task RemoveAsync(Guid skillId)
+        public Task RemoveAsync(Skill skill)
         {
             throw new NotImplementedException();
         }

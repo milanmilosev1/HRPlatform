@@ -1,12 +1,11 @@
-﻿namespace HRPlatform.Domain.Models
+﻿namespace HRPlatform.Domain.DTOs.CandidateDTOs
 {
-    public class Candidate
+    public class CreateCandidateDTO
     {
-        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public DateOnly DateOfBirth { get; set; }
         public string ContactNumber { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public ICollection<CandidateSkills> CandidateSkills { get; set; } = [];
+        public List<Guid> SkillIds { get; set; } = [];
     }
 }
