@@ -1,14 +1,16 @@
 ﻿using HRPlatform.Domain.DTOs.CandidateDTOs;
-using HRPlatform.Domain.Models;
 
 namespace HRPlatform.Domain.Services
 {
     public interface ICandidateServices
     {
-        Task<Candidate> AddCandidateAsync(CreateCandidateDTO candidate);
+        Task<CandidateResponseDTO?> AddCandidateAsync(CreateCandidateDTO candidate);
         Task RemoveCandidateAsync(Guid id);
-        Task<Candidate> UpdateCandidateInfoAsync(UpdateCandidateDTO newCandidate);
-        Task<Candidate?> GetCandidateByIdAsync(Guid id);
-        Task<List<Candidate>> GetCandidatesAsync();
+        Task<CandidateResponseDTO?> UpdateCandidateInfoAsync(UpdateCandidateDTO newCandidate);
+        Task<CandidateResponseDTO?> GetCandidateByIdAsync(Guid id);
+        Task<List<CandidateResponseDTO>> GetCandidatesAsync();
+        Task<List<CandidateResponseDTO>> GetCandidatesByName(string name);
+        Task<List<CandidateResponseDTO>> GetCandidatesBySkills(List<Guid> skillIds);
+        Task<CandidateResponseDTO?> RemoveSkillFromCandidateAsync(Guid candidateId, string skillName);
     }
 }

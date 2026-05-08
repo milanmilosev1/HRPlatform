@@ -5,10 +5,10 @@ namespace HRPlatform.Domain.Services
 {
     public interface ISkillServices
     {
-        Task<Skill> AddSkillAsync(CreateSkillDTO skill);
+        Task<SkillResponseDTO> AddSkillAsync(CreateSkillDTO skill);
         Task RemoveSkillAsync(Guid id);
-        Task<Skill?> UpdateSkillInfoAsync(UpdateSkillDTO newSkill);
-        Task<Skill?> GetSkillByIdAsync(Guid skillId);
-        Task<List<Skill>> GetSkillsAsync();
+        Task<SkillResponseDTO?> UpdateSkillInfoAsync(UpdateSkillDTO newSkill);
+        Task<SkillResponseDTO?> GetSkillByIdAsync(Guid skillId);
+        Task<List<SkillResponseDTO>> GetSkillsAsync();
     }
 }

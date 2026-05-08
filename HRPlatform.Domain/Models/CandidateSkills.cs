@@ -3,8 +3,8 @@
     public class CandidateSkills
     {
         public Guid CandidateId { get; set; }
-        public Candidate Candidate { get; set; } = new();
+        public Candidate Candidate { get; set; } = null!;
         public Guid SkillId { get; set; }
-        public Skill Skill { get; set; } = new();
+        public Skill Skill { get; set; } = null!;
     }
 }
