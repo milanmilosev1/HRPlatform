@@ -1,33 +1,38 @@
 ﻿using HRPlatform.Domain.Models;
 using HRPlatform.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRPlatform.Data.Repositories.SkillRepository
 {
-    public class SkillRepository : ISkillRepository
+    public class SkillRepository(AppDbContext context) : ISkillRepository
     {
-        public Task<Skill> AddAsync(Skill skill)
+        private readonly AppDbContext _context = context;
+        public async Task<Skill> AddAsync(Skill skill)
         {
-            throw new NotImplementedException();
+            await _context.Skills.AddAsync(skill);
+            await _context.SaveChangesAsync();
+            return skill;
         }
 
-        public Task<List<Skill>> GetAllAsync()
+        public async Task<List<Skill>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Skills.ToListAsync();
         }
 
-        public Task<Skill?> GetByIdAsync(Guid id)
+        public async Task<Skill?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Skills.FindAsync(id);
         }
 
-        public Task RemoveAsync(Skill skill)
+        public async Task RemoveAsync(Skill skill)
         {
-            throw new NotImplementedException();
+            _context.Remove(skill);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<Skill> UpdateAsync(Skill newSkill)
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
     }
 }

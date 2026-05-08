@@ -8,5 +8,7 @@ namespace HRPlatform.Domain.Repositories
         Task RemoveAsync(Candidate candidate);
         Task<Candidate?> GetByIdAsync(Guid id);
         Task<List<Candidate>> GetAllAsync();
+        Task SaveChangesAsync();
+
     }
 }
