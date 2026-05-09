@@ -14,69 +14,80 @@ namespace HRPlatform.WebApi.Controllers
         [Route("/add-candidate")]
         public async Task<IActionResult> AddCandidateAsync([FromBody] CreateCandidateDTO candidate)
         {
-            var item = await _service.AddCandidateAsync(candidate);
-            if (item is null)
+            var result = await _service.AddCandidateAsync(candidate);
+            if (result.IsFailure)
             {
-                return BadRequest("Falied to add candidate");
+                return BadRequest(result.Error);
             }
 
-            return Ok(item);
+            return Ok(result.Value);
         }
 
         [HttpPatch]
         [Route("/update-candidate")]
         public async Task<IActionResult> UpdateCandidateInfo([FromBody] UpdateCandidateDTO candidate)
         {
-            var item = await _service.UpdateCandidateInfoAsync(candidate);
-            if (item is null)
-                return BadRequest("Failed to update candidate");
+            var result = await _service.UpdateCandidateInfoAsync(candidate);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
 
-            return Ok(item);
+            return Ok(result.Value);
         }
 
         [HttpGet]
         [Route("/all-candidates")]
         public async Task<IActionResult> GetAllCandidatesAsync()
         {
-            return Ok(await _service.GetCandidatesAsync());
+            var result = await _service.GetCandidatesAsync();
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result.Value);
         }
 
         [HttpGet]
         [Route($"/candidate-id:")]
         public async Task<IActionResult> GetCandidateByIdAsync([FromQuery] Guid id)
         {
-            var item = await _service.GetCandidateByIdAsync(id);
-            if (item is null)
-                return NotFound("Candidate not found");
+            var result = await _service.GetCandidateByIdAsync(id);
+            if (result.IsFailure)
+                return NotFound(result.Error);
 
-            return Ok(item);
+            return Ok(result.Value);
         }
 
         [HttpGet]
         [Route("/candidates-by-skills")]
         public async Task<IActionResult> GetCandidatesBySkills([FromQuery] List<Guid> skillIds)
         {
-            return Ok(await _service.GetCandidatesBySkills(skillIds));
+            var result = await _service.GetCandidatesBySkills(skillIds);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok(result.Value);
         }
 
         [HttpGet]
         [Route("/candidates-by-name")]
         public async Task<IActionResult> GetCandidatesByName([FromQuery] string name)
         {
-            var item = await _service.GetCandidatesByName(name);
-            if(item.Count == 0)
+            var result = await _service.GetCandidatesByName(name);
+            if(result.IsFailure || result.Value.Count == 0)
             {
                 return NotFound("No candidates with this name found");
             }
 
-            return Ok(item);
+            return Ok(result.Value);
         }
 
         [HttpDelete]
         [Route("/delete-candidate")]
         public async Task<IActionResult> DeleteCandidateAsync([FromBody] Guid candidateId)
         {
-            await _service.RemoveCandidateAsync(candidateId);
+            var result = await _service.RemoveCandidateAsync(candidateId);
+            if (result.IsFailure)
+                return NotFound(result.Error);
+
             return Ok("Candidate removede succesfully");
         }
 
@@ -84,11 +95,11 @@ namespace HRPlatform.WebApi.Controllers
         [Route("/remove-candidate-skill")]
         public async Task<IActionResult> RemoveSkillFromCandidateAsync([FromQuery] Guid candidateId, [FromQuery] string skillName)
         {
-            var item = await _service.RemoveSkillFromCandidateAsync(candidateId, skillName);
-            if (item is null)
-                return BadRequest();
+            var result = await _service.RemoveSkillFromCandidateAsync(candidateId, skillName);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
 
-            return Ok(item);
+            return Ok(result.Value);
         }
     }
 }
