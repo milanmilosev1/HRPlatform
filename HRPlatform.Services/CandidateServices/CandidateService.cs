@@ -87,6 +87,9 @@ namespace HRPlatform.Services.CandidateServices
 
         public async Task<Result<CandidateResponseDTO>> RemoveSkillFromCandidateAsync(Guid candidateId, string skillName)
         {
+            if (string.IsNullOrWhiteSpace(skillName))
+                return Result<CandidateResponseDTO>.Failure("Skill name cannot be empty.");
+
             var candidate = await _repo.GetByIdAsync(candidateId);
 
             if (candidate is null)
@@ -97,6 +100,10 @@ namespace HRPlatform.Services.CandidateServices
             {
                 candidate.CandidateSkills.Remove(skillToRemove);
                 await _repo.SaveChangesAsync();
+            }
+            else
+            {
+                return Result<CandidateResponseDTO>.Failure($"Candidate does not possess the skill '{skillName}'.");
             }
 
             return Result<CandidateResponseDTO>.Success(CandidateMapper.ToResponse(candidate));
