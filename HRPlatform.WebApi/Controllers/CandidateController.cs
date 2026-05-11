@@ -81,7 +81,7 @@ namespace HRPlatform.WebApi.Controllers
         }
 
         [HttpDelete]
-        [Route("/delete-candidate")]
+        [Route("/remove-candidate")]
         public async Task<IActionResult> DeleteCandidateAsync([FromBody] Guid candidateId)
         {
             var result = await _service.RemoveCandidateAsync(candidateId);

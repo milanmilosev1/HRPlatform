@@ -1,4 +1,5 @@
-﻿using HRPlatform.Domain.Models;
+﻿using System.Text.RegularExpressions;
+using HRPlatform.Domain.Models;
 
 namespace HRPlatform.Services.Validators
 {
@@ -7,7 +8,7 @@ namespace HRPlatform.Services.Validators
         public string Message { get; set; } = message;
     }
 
-    public static class CandidateValidator
+    public static partial class CandidateValidator
     {
         public static CandidateValidationResults Validate(Candidate candidate)
         {
@@ -26,7 +27,13 @@ namespace HRPlatform.Services.Validators
             if (candidate.ContactNumber.Equals(string.Empty))
                 return new("Candidate contact number not provided");
 
+            if (!ContactNumberRegex().IsMatch(candidate.ContactNumber))
+                return new("Candidate contact number format is invalid");
+
             return new(string.Empty);
-        }    
+        }
+
+        [GeneratedRegex(@"^\+3816[0-9] ?[0-9]{6,7}$")]
+        private static partial Regex ContactNumberRegex();
     }
 }

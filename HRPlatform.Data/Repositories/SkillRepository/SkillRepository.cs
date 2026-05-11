@@ -16,12 +16,12 @@ namespace HRPlatform.Data.Repositories.SkillRepository
 
         public async Task<List<Skill>> GetAllAsync()
         {
-            return await _context.Skills.ToListAsync();
+            return await _context.Skills.Include(s => s.CandidateSkills).ToListAsync();
         }
 
         public async Task<Skill?> GetByIdAsync(Guid id)
         {
-            return await _context.Skills.FindAsync(id);
+            return await _context.Skills.Include(s => s.CandidateSkills).FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task RemoveAsync(Skill skill)

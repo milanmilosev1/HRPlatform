@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.5.11709.299 stable
+VisualStudioVersion = 18.5.11709.299
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRPlatform.WebApi", "HRPlatform.WebApi\HRPlatform.WebApi.csproj", "{02A490B2-6CF7-4051-9BCB-87AFDBE65C75}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRPlatform.Domain", "HRPlatform.Domain\HRPlatform.Domain.csproj", "{0B440DA3-884A-4062-A643-69751D2BCBB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRPlatform.Services", "HRPlatform.Services\HRPlatform.Services.csproj", "{6E95624D-E756-489E-92AA-9251DFA7A014}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRPlatform.Tests", "HRPlatform.Tests\HRPlatform.Tests.csproj", "{C09BA545-3DAD-4CB8-95E6-C8AD06B564B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6E95624D-E756-489E-92AA-9251DFA7A014}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E95624D-E756-489E-92AA-9251DFA7A014}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E95624D-E756-489E-92AA-9251DFA7A014}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C09BA545-3DAD-4CB8-95E6-C8AD06B564B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C09BA545-3DAD-4CB8-95E6-C8AD06B564B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C09BA545-3DAD-4CB8-95E6-C8AD06B564B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C09BA545-3DAD-4CB8-95E6-C8AD06B564B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

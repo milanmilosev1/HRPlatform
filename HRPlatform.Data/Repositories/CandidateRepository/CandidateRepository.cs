@@ -25,7 +25,10 @@ namespace HRPlatform.Data.Repositories.CandidateRepository
 
         public async Task<Candidate?> GetByIdAsync(Guid id)
         {
-            return await _context.Candidates.FindAsync(id);
+            return await _context.Candidates
+                .Include(c => c.CandidateSkills)
+                .ThenInclude(cs => cs.Skill)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task RemoveAsync(Candidate candidate)

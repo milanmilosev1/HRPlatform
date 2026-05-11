@@ -14,11 +14,11 @@ namespace HRPlatform.WebApi.Controllers
         [Route("/add-skill")]
         public async Task<IActionResult> AddSkillAsync(CreateSkillDTO skill)
         {
-            var item = await _service.AddSkillAsync(skill);
-            if (item is null)
-                return BadRequest("Failed to add skill");
+            var result = await _service.AddSkillAsync(skill);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
 
-            return Ok(item);
+            return Ok(result.Value);
         }
     }
 }
